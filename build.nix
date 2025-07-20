@@ -10,4 +10,6 @@ buildGoModule {
     name = "build";
     path = ./.;
   };
+
+  vendorHash = null;
 }
