@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# inspired by pfetch and fet.sh
+
+WHITE='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+GREY='\033[0;90m'
+
+user="$(echo "${HOME/*\/}@")"
+host="$(hostname -f)"
+flake="$(cat /etc/os-release | grep PRETTY_NAME | grep -o -P '(?<=").*(?=")')"
+model="$(cat /sys/devices/virtual/dmi/id/product_version)"
+kernel="$(uname -r)"
+
+# nix1="$(nix-store -q --requisites /run/current-system/sw | grep -c \n)"
+# nix2="$(nix-store -q --requisites ~/.nix-profile | grep -c \n)"
+# pkgs="$(expr $nix1 + $nix2)"
+# runs 10x faster by removing package count!
+
+if [[ "$(uptime)" == *"day"* ]]; then
+    uptime="$(uptime | sed -i 's/day/天/g'| awk '{gsub(/[,\t]+/, ""); print $3, $4, $5}')"
+else
+    uptime="$(uptime | awk '{gsub(/[,\t]+/, ""); print $3}')"
+fi
+
+# modified version of progress.sh from The Linux Cast's dotfiles repo
+time="5/24/2025" # Must be manually updated
+let current=$(date +%s)
+timestamp=$(date -d "$time" +%s)
+passage=$((current - timestamp))
+days=$((passage / 86400))
+halfyear=15778463
+
+# memory="$(free -m | grep Mem | awk '{print $3}')"
+# not particularly useful
+
+echo -en "${BLUE}  \\\\\  ${CYAN}\\\\\ //   ${WHITE}"
+echo -e "${GREEN}$user$host${WHITE}"
+
+echo -en "${BLUE} ==\\\\\__${CYAN}\\\\\/ ${BLUE}// ${WHITE}"
+echo -e "┌──────────────────────────────┐"
+
+echo -en "${CYAN}   //   \\\\\\"
+echo -en "${BLUE}//  ${WHITE}"
+echo -e "${RED} model${WHITE} $model"
+
+echo -en "${CYAN}==//     ${BLUE}//== ${WHITE}"
+echo -e "${BLUE} flake${WHITE} $flake"
+
+echo -en "${CYAN} //${BLUE}\\\\\\"
+echo -en "${CYAN}___//    ${WHITE}"
+echo -e "${YELLOW} kernel${WHITE} $kernel"
+
+echo -en "${CYAN}// ${BLUE}/\\\\\  ${CYAN}\\\\\==  ${WHITE}"
+echo -e "${CYAN} uptime${WHITE} $uptime hr "
+
+echo -en "${BLUE}  // \\\\\  ${CYAN}\\\\\   ${WHITE}"
+
+if [ "$passage" -lt "$halfyear" ]; then
+    echo -e "${PURPLE} updated${WHITE} $days days ago"
+else
+    echo -e "${PURPLE} updated${RED} $days days ago!!${WHITE}"
+fi
+
+echo -e "              └──────────────────────────────┘"
+# │ This symbol is just in case I want vertical borders
