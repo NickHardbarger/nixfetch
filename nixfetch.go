@@ -12,8 +12,14 @@ import (
 )
 
 const (
-	white string = "\033[0m"
-	red   string = "\033[31m"
+	white  string = "\033[0m"
+	red    string = "\033[31m"
+	green  string = "\033[32m"
+	yellow string = "\033[33m"
+	blue   string = "\033[34m"
+	purple string = "\033[35m"
+	cyan   string = "\033[36m"
+	grey   string = "\033[90m"
 )
 
 func get_userhost() string {
@@ -89,17 +95,19 @@ func updated() string {
 	time_passage := current_time - start_time
 	days_passed := time_passage / 86400
 	if time_passage > six_months {
-		return red + strconv.Itoa(int(days_passed)) + " days ago!!" + white
+		return red + strconv.Itoa(int(days_passed)) + " days ago!!"
 	} else {
 		return strconv.Itoa(int(days_passed)) + " days ago"
 	}
 }
 
 func main() {
-	fmt.Println(get_userhost())
-	fmt.Println("model " + get_model())
-	fmt.Println("flake " + get_flake())
-	fmt.Println("kernel " + get_kernel())
-	fmt.Println("uptime " + get_uptime())
-	fmt.Println("updated", updated())
+	fmt.Println(green + get_userhost() + white)
+	fmt.Println("┌──────────────────────────────┐")
+	fmt.Println(red + " model " + white + get_model())
+	fmt.Println(blue + " flake " + white + get_flake())
+	fmt.Println(yellow + " kernel " + white + get_kernel())
+	fmt.Println(cyan + " uptime " + white + get_uptime())
+	fmt.Println(purple + " updated " + white + updated())
+	fmt.Println("└──────────────────────────────┘")
 }
