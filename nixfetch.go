@@ -20,6 +20,18 @@ const (
 	purple string = "\033[35m"
 	cyan   string = "\033[36m"
 	grey   string = "\033[90m"
+
+	reset_cursor string = "\033[15G"
+
+	// TODO: make logo multicolor like in fetsh
+	logo string = blue +
+		`  \\  \\ //  
+ ==\\__\\/ // 
+   //   \\//  
+==//     //== 
+ //\\___//     
+// /\\  \\==   
+  // \\  \\`
 )
 
 func get_userhost() string {
@@ -102,12 +114,13 @@ func updated() string {
 }
 
 func main() {
+	fmt.Print(logo + "\033[6A" + reset_cursor)
 	fmt.Println(green + get_userhost() + white)
-	fmt.Println("┌──────────────────────────────┐")
-	fmt.Println(red + " model " + white + get_model())
-	fmt.Println(blue + " flake " + white + get_flake())
-	fmt.Println(yellow + " kernel " + white + get_kernel())
-	fmt.Println(cyan + " uptime " + white + get_uptime())
-	fmt.Println(purple + " updated " + white + updated())
-	fmt.Println("└──────────────────────────────┘")
+	fmt.Println(reset_cursor + "┌──────────────────────────────┐")
+	fmt.Println(reset_cursor + red + " model " + white + get_model())
+	fmt.Println(reset_cursor + blue + " flake " + white + get_flake())
+	fmt.Println(reset_cursor + yellow + " kernel " + white + get_kernel())
+	fmt.Println(reset_cursor + cyan + " uptime " + white + get_uptime())
+	fmt.Println(reset_cursor + purple + " updated " + white + updated())
+	fmt.Println(reset_cursor + "└──────────────────────────────┘")
 }
