@@ -101,7 +101,7 @@ func get_uptime() string {
 func updated() string {
 	const six_months int64 = 15778463
 	// NOTE: date must be updated manually
-	start_time := time.Date(2025, 5, 24,
+	start_time := time.Date(2025, 8, 1,
 		0, 0, 0, 0, time.UTC).Unix()
 	current_time := time.Now().Unix()
 	time_passage := current_time - start_time
